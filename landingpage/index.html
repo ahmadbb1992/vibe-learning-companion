@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" data-vibe="obsidian">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Experience VibeFlow, the revolutionary AI development environment. Code at the speed of thought, calibrate design systems dynamically, and ship apps via pure vibe coding.">
+  <title>VibeFlow | The Ultimate Vibe Coding Platform</title>
+  
+  <!-- SEO & Social Icons -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%236366f1%22/><circle cx=%2250%22 cy=%2250%22 r=%2225%22 fill=%22white%22/></svg>">
+  
+  <!-- Custom Stylesheetsheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background SVG Gradient definitions -->
+  <svg style="display: none;">
+    <defs>
+      <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="var(--accent-primary)" />
+        <stop offset="100%" stop-color="var(--accent-secondary)" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Sticky Navbar -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo" id="nav-logo">
+        <!-- Modern Logo Icon -->
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        VibeFlow
+      </a>
+      <nav class="main-nav" id="main-nav">
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#console">Interactive Console</a></li>
+          <li><a href="#testimonials">Feedback</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <a href="#cta" class="btn btn-primary" id="btn-nav-cta">
+          Start Vibing
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:16px;height:16px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </a>
+      </div>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="main-nav" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-radial-glow"></div>
+    <div class="container hero-grid">
+      
+      <div class="hero-content">
+        <div class="hero-tag">
+          <span></span> Calibrating flow state v2.4
+        </div>
+        <h1 class="hero-title">
+          Code at the <span>Speed of Vibe</span>
+        </h1>
+        <p class="hero-desc">
+          Describe your application interface in plain language and watch VibeFlow construct production-ready code with responsive grid lines and high-fidelity aesthetics in real-time.
+        </p>
+        <div class="hero-ctas">
+          <a href="#console" class="btn btn-primary" id="btn-hero-start">
+            Open Playground
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:16px;height:16px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+            </svg>
+          </a>
+          <a href="#features" class="btn btn-secondary" id="btn-hero-features">Learn More</a>
+        </div>
+      </div>
+
+      <!-- Hero Console Simulator -->
+      <div class="hero-mockup">
+        <div class="glass-card mockup-body">
+          <div class="mockup-header">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+            <span class="mockup-title">prompt_simulator.sh</span>
+          </div>
+          
+          <!-- Typing interface -->
+          <div class="terminal-pane">
+            <div class="terminal-line">
+              <span class="terminal-prompt">vibeflow $</span>
+              <span class="typed-text"></span><span class="cursor"></span>
+            </div>
+          </div>
+          
+          <!-- Rendered Interface simulation -->
+          <div class="preview-pane">
+            <div class="preview-grid-back"></div>
+            <div class="generating-ui">
+              <div class="simulated-card">
+                <div class="simulated-img">
+                  <!-- Abstract lines inside image space -->
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="rgba(255,255,255,0.4)" style="width: 32px; height: 32px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-.105-8.243-.302m16.486 0A12.023 12.023 0 0012 13.5c-2.998 0-5.74-.105-8.243-.302m16.486 0C19.083 14.512 15.68 15 12 15c-3.68 0-7.083-.488-8.243-1.302" />
+                  </svg>
+                </div>
+                <div class="simulated-row"></div>
+                <div class="simulated-row half"></div>
+                <div class="simulated-row short"></div>
+                <div class="simulated-btn">LAUNCH SYSTEM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Sticky vibe controller theme changer widget -->
+  <div class="glass-card vibe-controller-sticky" id="vibe-widget">
+    <span class="vibe-label">
+      <!-- Vibe dial SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:14px;height:14px;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.01-1.712a15.968 15.968 0 004.554-5.755m-.72 8.39a15.002 15.002 0 01-3.29-8.39m3.29 8.39a15.01 15.01 0 004.7-2.08m-.754-11.67a3.007 3.007 0 00-5.474-1.12 2.25 2.25 0 01-2.4 2.244 4.5 4.5 0 008.4-2.244c0-.399-.077-.78-.22-1.128zm0 0a15.999 15.999 0 003.388-1.62m-5.01-1.712a15.968 15.968 0 004.554-5.755m-.72 8.39a15.002 15.002 0 01-3.29-8.39m3.29 8.39a15.01 15.01 0 004.7-2.08" />
+      </svg>
+      Vibe:
+    </span>
+    <span class="vibe-dot active" data-theme-value="obsidian" title="Obsidian Theme" style="color: #6366f1;"></span>
+    <span class="vibe-dot" data-theme-value="cyberpunk" title="Cyberpunk Theme" style="color: #06b6d4;"></span>
+    <span class="vibe-dot" data-theme-value="cosmic" title="Cosmic Space Theme" style="color: #8b5cf6;"></span>
+    <span class="vibe-dot" data-theme-value="emerald" title="Emerald Matrix Theme" style="color: #10b981;"></span>
+  </div>
+
+  <!-- Features Grid Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-subtitle">Features</p>
+        <h2 class="section-title">Built for Modern Vibe Coding</h2>
+        <p class="section-desc">Traditional programming requires parsing complicated syntax. VibeFlow handles the heavy lifting so you can focus entirely on high-level aesthetics and flow.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Card 1 -->
+        <div class="glass-card feature-card">
+          <div class="feature-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:24px;height:24px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+            </svg>
+          </div>
+          <h3>Natural Prompting</h3>
+          <p>Describe layout positioning, animations, button sizes, and color palettes. The engine interprets abstract adjectives and renders visual drafts matching your vision.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="glass-card feature-card">
+          <div class="feature-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:24px;height:24px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+            </svg>
+          </div>
+          <h3>Instant hot-reload</h3>
+          <p>Watch layouts shift instantly in real-time as your description changes. No build pipelines, no development server configuration, just clean flow state.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="glass-card feature-card">
+          <div class="feature-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:24px;height:24px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.01-1.712a15.968 15.968 0 004.554-5.755m-.72 8.39a15.002 15.002 0 01-3.29-8.39m3.29 8.39a15.01 15.01 0 004.7-2.08" />
+            </svg>
+          </div>
+          <h3>Aesthetic Calibration</h3>
+          <p>Easily swap primary design variables, spacing constants, border-radius rounding, or shadow values globally through interactive control sliders.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Vibe Console Section -->
+  <section class="console-playground" id="console">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-subtitle">Live Playground</p>
+        <h2 class="section-title">The Interactive Vibe Console</h2>
+        <p class="section-desc">Select a preset design requirement below to watch the Vibe engine compile and render customized interactive widgets instantly.</p>
+      </div>
+
+      <div class="playground-grid">
+        <!-- Prompts Selector Pane -->
+        <div class="prompt-list">
+          <div class="glass-card prompt-option active" data-widget="widget-music-player">
+            <h4>
+              <!-- Music icon SVG -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 0v10.5m0-10.5L9 12m0 0v7.5m0-7.5l-6 3m0 0v7.5m0-7.5L9 12" />
+              </svg>
+              Music Player Card
+            </h4>
+            <p>"Build a dark glassmorphic music player with pink album artwork and interactive playback control buttons..."</p>
+          </div>
+          
+          <div class="glass-card prompt-option" data-widget="widget-crypto-wallet">
+            <h4>
+              <!-- Card icon SVG -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+              </svg>
+              Crypto Balance Wallet
+            </h4>
+            <p>"Compile a crypto dashboard panel showing green positive balances, transaction list, and standard asset controls..."</p>
+          </div>
+
+          <div class="glass-card prompt-option" data-widget="widget-weather-forecast">
+            <h4>
+              <!-- Cloud/Sun icon SVG -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
+              </svg>
+              Glass Weather Forecast
+            </h4>
+            <p>"Create a simple weather forecast panel for Neo-Jakarta with high transparency blur grid weather blocks..."</p>
+          </div>
+        </div>
+
+        <!-- Render Target Frame -->
+        <div class="glass-card console-container">
+          <div class="console-header">
+            <div class="console-header-left">
+              <span class="mockup-dot red"></span>
+              <span class="mockup-dot yellow"></span>
+              <span class="mockup-dot green"></span>
+            </div>
+            <div class="console-tab">preview_window.app</div>
+          </div>
+          
+          <div class="console-body">
+            <!-- Loading Indicator -->
+            <div class="loader-container">
+              <div class="spinner"></div>
+              <div class="loader-text" id="loader-text-status">Analyzing vibe parameters...</div>
+            </div>
+
+            <!-- Preview Frame Area -->
+            <div class="playground-preview-frame">
+              
+              <!-- 1. Music Player Widget -->
+              <div class="playground-widget widget-music active" id="widget-music-player">
+                <div class="music-album">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 0v10.5m0-10.5L9 12m0 0v7.5m0-7.5l-6 3m0 0v7.5m0-7.5L9 12" />
+                  </svg>
+                </div>
+                <h4 class="music-title">Synthesized Dreams</h4>
+                <p class="music-artist">Neon Wanderer</p>
+                <div class="music-progress">
+                  <div class="music-progress-bar"></div>
+                </div>
+                <div class="music-controls">
+                  <div class="music-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" style="width:16px;height:16px;">
+                      <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                    </svg>
+                  </div>
+                  <div class="music-btn play">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" style="width:20px;height:20px;">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                  <div class="music-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" style="width:16px;height:16px;">
+                      <path d="M6 18l8.5-6L6 6v12zM16 6h2v12h-2z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2. Crypto Wallet Widget -->
+              <div class="playground-widget widget-wallet" id="widget-crypto-wallet">
+                <div class="wallet-header">
+                  <h4 class="wallet-balance-label">Total Asset Balance</h4>
+                  <span class="wallet-net"><span class="wallet-net-dot"></span>Ethereum</span>
+                </div>
+                <div class="wallet-balance">$14,248.50</div>
+                <div class="wallet-actions">
+                  <button class="wallet-action-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:14px;height:14px;">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Receive
+                  </button>
+                  <button class="wallet-action-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:14px;height:14px;">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                    </svg>
+                    Send
+                  </button>
+                </div>
+                <div class="wallet-tx-item">
+                  <div class="wallet-tx-info">
+                    <div class="wallet-tx-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:14px;height:14px;color:#10b981;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 4.5l-15 15m0 0h11.25m-11.25 0V8.25" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="wallet-tx-title">Received ETH</div>
+                      <div class="wallet-tx-date">Just now</div>
+                    </div>
+                  </div>
+                  <div class="wallet-tx-amount positive">+0.48 ETH</div>
+                </div>
+              </div>
+
+              <!-- 3. Weather Forecast Widget -->
+              <div class="playground-widget widget-weather" id="widget-weather-forecast">
+                <div class="weather-header">
+                  <div>
+                    <h4 class="weather-city">Neo-Jakarta</h4>
+                    <span class="weather-condition">Partly Cloudy</span>
+                  </div>
+                  <!-- Weather icons -->
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 32px; height: 32px; color: var(--accent-primary);">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
+                  </svg>
+                </div>
+                <div class="weather-temp-container">
+                  <div class="weather-temp">29°C</div>
+                </div>
+                <div class="weather-grid-forecast">
+                  <div class="weather-day-col">
+                    <div class="weather-day-name">MON</div>
+                    <div class="weather-day-temp">30°</div>
+                  </div>
+                  <div class="weather-day-col">
+                    <div class="weather-day-name">TUE</div>
+                    <div class="weather-day-temp">28°</div>
+                  </div>
+                  <div class="weather-day-col">
+                    <div class="weather-day-name">WED</div>
+                    <div class="weather-day-temp">29°</div>
+                  </div>
+                  <div class="weather-day-col">
+                    <div class="weather-day-name">THU</div>
+                    <div class="weather-day-temp">31°</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-subtitle">Testimonials</p>
+        <h2 class="section-title">What Vibe Coders Say</h2>
+        <p class="section-desc">Join thousands of developers coding at peak performance using natural language parameters.</p>
+      </div>
+
+      <div class="testimonials-carousel-wrapper">
+        <!-- Navigation Buttons -->
+        <button class="carousel-nav-btn prev" aria-label="Previous testimonial">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:20px;height:20px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+        <button class="carousel-nav-btn next" aria-label="Next testimonial">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:20px;height:20px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            
+            <!-- Slide 1 -->
+            <div class="carousel-slide">
+              <div class="glass-card testimonial-card">
+                <div class="quote-icon">“</div>
+                <p class="testimonial-text">
+                  "Before VibeFlow, I spent hours debugging complex Flexbox grids and responsive breakpoints. Now, I just describe what I want, adjust the vibe dial, and the code outputs beautifully. It feels like magic."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-img">AP</div>
+                  <div class="author-info">
+                    <div class="author-name">Adi Pratama</div>
+                    <div class="author-role">Creative Frontend Engineer</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-slide">
+              <div class="glass-card testimonial-card">
+                <div class="quote-icon">“</div>
+                <p class="testimonial-text">
+                  "This tool completely transformed my hackathon speed. I compiled three high-fidelity dashboard layouts in 10 minutes. The Obsidian dark mode is gorgeous out of the box."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-img">SN</div>
+                  <div class="author-info">
+                    <div class="author-name">Siti Nurhaliza</div>
+                    <div class="author-role">SaaS Product Founder</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-slide">
+              <div class="glass-card testimonial-card">
+                <div class="quote-icon">“</div>
+                <p class="testimonial-text">
+                  "The Cyberpunk styling preset blew my clients away. I literally loaded the page, scrolled down to the vibe switcher, clicked neon cyan/rose, and they signed the contract on the spot."
+                </p>
+                <div class="testimonial-author">
+                  <div class="author-img">DK</div>
+                  <div class="author-info">
+                    <div class="author-name">David Koerniadi</div>
+                    <div class="author-role">Independent Web Architect</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Indicator dots -->
+        <div class="carousel-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA & Footer Section -->
+  <section class="cta-footer" id="cta">
+    <div class="container">
+      <div class="glass-card cta-box">
+        <h2>Enter the Flow State</h2>
+        <p>Subscribe to our newsletter to receive early system invites, design token templates, and styling guides.</p>
+        
+        <!-- Interactive Form -->
+        <form class="newsletter-form" id="newsletter-form" novalidate>
+          <div class="newsletter-input-wrapper">
+            <input type="email" class="newsletter-input" id="email-input" placeholder="Enter your developer email..." required>
+            <div class="form-error" id="email-error">Please enter a valid email.</div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-newsletter">
+            Request Invite
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:16px;height:16px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+            </svg>
+          </button>
+          <div class="success-message">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" style="width:20px;height:20px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            System access pending! Check your email.
+          </div>
+        </form>
+      </div>
+
+      <!-- Footer Bottom links -->
+      <footer>
+        <div>© 2026 PT Imajinasi Punya Akal. All rights reserved.</div>
+        <div class="footer-links">
+          <a href="#">Security</a>
+          <a href="#">Privacy</a>
+          <a href="#">System Status</a>
+        </div>
+      </footer>
+    </div>
+  </section>
+
+  <!-- Main JavaScript File -->
+  <script src="app.js"></script>
+</body>
+</html>
