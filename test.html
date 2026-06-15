@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Vibe Learning Companion - Test Runner</title>
+  <style>
+    body {
+      background-color: #0f1117;
+      color: #e2e8f0;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 { border-bottom: 2px solid #2e3347; padding-bottom: 0.5rem; }
+    .test-suite { margin-top: 1.5rem; background: #1a1d27; border: 1px solid #2e3347; border-radius: 8px; padding: 1.5rem; }
+    .test-case { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #2e3347; }
+    .test-case:last-child { border-bottom: none; }
+    .pass { color: #22c55e; font-weight: bold; }
+    .fail { color: #ef4444; font-weight: bold; }
+    .summary { margin-top: 1.5rem; font-size: 1.1rem; font-weight: bold; padding: 1rem; border-radius: 8px; }
+    .summary.all-pass { background-color: rgba(34, 197, 94, 0.2); border: 1px solid #22c55e; }
+    .summary.some-fail { background-color: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; }
+    .error-box { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ff8080; padding: 1rem; border-radius: 8px; margin-top: 1rem; font-family: monospace; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+
+  <h1>🧪 Test Runner - Vibe Learning Companion</h1>
+  <p>Halaman ini menjalankan unit test untuk logika aplikasi secara otomatis.</p>
+
+  <div id="error-display" style="display:none;" class="error-box"></div>
+
+  <div class="test-suite">
+    <h2>Habit Tracker Tests</h2>
+    <div id="test-results">Running tests...</div>
+  </div>
+
+  <div id="test-summary" class="summary"></div>
+
+  <!-- Mock DOM elements for test environment -->
+  <div style="display:none;">
+    <form id="habit-form"><input id="habit-input"></form>
+    <ul id="habit-list"></ul>
+    <div id="habit-progress"><div id="progress-fill"></div><span id="progress-text"></span></div>
+    <p id="empty-message"></p>
+  </div>
+
+  <script>
+    // Global error handler to capture loading errors
+    window.onerror = function(message, source, lineno, colno, error) {
+      const display = document.getElementById('error-display');
+      display.style.display = 'block';
+      display.innerHTML = `<strong>Error Terdeteksi:</strong>\n${message}\ndi ${source} (Baris ${lineno}:${colno})`;
+      document.getElementById('test-results').innerHTML = '<span class="fail">Pengujian terhenti karena error.</span>';
+      return false;
+    };
+  </script>
+  
+  <script src="script.js"></script>
+  
+  <script>
+    // Mock LocalStorage if disabled/restricted on file://
+    const mockStorage = {};
+    const safeLocalStorage = {
+      getItem: (key) => {
+        try { return localStorage.getItem(key); } 
+        catch(e) { return mockStorage[key] || null; }
+      },
+      setItem: (key, val) => {
+        try { localStorage.setItem(key, val); } 
+        catch(e) { mockStorage[key] = String(val); }
+      },
+      clear: () => {
+        try { localStorage.clear(); } 
+        catch(e) { for (let k in mockStorage) delete mockStorage[k]; }
+      }
+    };
+
+    // Override localstorage functions in script.js context
+    const originalSave = saveHabits;
+    const originalLoad = loadHabits;
+
+    saveHabits = function() {
+      safeLocalStorage.setItem('vibe_habits', JSON.stringify(habits));
+      updateProgress();
+    };
+
+    loadHabits = function() {
+      const savedData = safeLocalStorage.getItem('vibe_habits');
+      if (savedData) {
+        try { habits = JSON.parse(savedData); } catch (e) { habits = []; }
+      } else {
+        habits = [];
+      }
+      renderHabits();
+    };
+
+    // ===== MINI TESTING FRAMEWORK =====
+    const resultsContainer = document.getElementById('test-results');
+    const summaryContainer = document.getElementById('test-summary');
+    let totalTests = 0;
+    let passedTests = 0;
+    const testCasesOutput = [];
+
+    function assert(condition, message) {
+      totalTests++;
+      if (condition) {
+        passedTests++;
+        testCasesOutput.push(`<div class="test-case"><span>✓ ${message}</span><span class="pass">PASSED</span></div>`);
+      } else {
+        testCasesOutput.push(`<div class="test-case"><span>✗ ${message}</span><span class="fail">FAILED</span></div>`);
+      }
+    }
+
+    // Reset state before each test
+    function beforeEach() {
+      habits = [];
+      habitIdCounter = Date.now();
+      safeLocalStorage.clear();
+    }
+
+    // ===== TEST SUITE =====
+    function runTests() {
+      try {
+        // Test 1: Add Habit
+        beforeEach();
+        addHabit("Test Belajar Vibe Coding 💻");
+        assert(habits.length === 1, "Harus bisa menambah habit baru");
+        assert(habits[0].name === "Test Belajar Vibe Coding 💻", "Nama habit harus sesuai");
+        assert(habits[0].done === false, "Status awal habit baru harus false");
+
+        // Test 2: Toggle Habit (Done / Undone)
+        beforeEach();
+        addHabit("Test Habit 2");
+        const habitId = habits[0].id;
+        toggleHabit(habitId);
+        assert(habits[0].done === true, "Status habit harus berubah jadi true setelah di-toggle");
+        toggleHabit(habitId);
+        assert(habits[0].done === false, "Status habit harus kembali jadi false jika di-toggle lagi");
+
+        // Test 3: Delete Habit
+        beforeEach();
+        addHabit("Test Habit A");
+        addHabit("Test Habit B");
+        const idToDelete = habits[0].id;
+        deleteHabit(idToDelete);
+        assert(habits.length === 1, "Jumlah habit berkurang setelah dihapus");
+        assert(habits[0].name === "Test Habit B", "Habit yang tersisa harus benar");
+
+        // Test 4: LocalStorage Persistence
+        beforeEach();
+        addHabit("Test Simpan");
+        const loaded = JSON.parse(safeLocalStorage.getItem('vibe_habits'));
+        assert(loaded !== null, "Data harus tersimpan");
+        assert(loaded[0].name === "Test Simpan", "Data di storage harus sesuai");
+
+        // Render Results
+        resultsContainer.innerHTML = testCasesOutput.join('');
+        
+        if (passedTests === totalTests) {
+          summaryContainer.className = "summary all-pass";
+          summaryContainer.innerHTML = `Semua test berhasil! 🎉 (${passedTests}/${totalTests} Passed)`;
+        } else {
+          summaryContainer.className = "summary some-fail";
+          summaryContainer.innerHTML = `Beberapa test gagal! ❌ (${passedTests}/${totalTests} Passed)`;
+        }
+      } catch (err) {
+        window.onerror(err.message, "test.html", 0, 0, err);
+      }
+    }
+
+    // Run tests on load
+    window.addEventListener('load', runTests);
+  </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibe Learning Companion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>🎵 Vibe Learning Companion</h1>
+    <p class="subtitle">Habit Tracker · Pomodoro · Quick Notes</p>
+  </header>
+
+  <main class="dashboard">
+
+    <!-- ===== HABIT TRACKER PANEL ===== -->
+    <section class="panel habit-panel">
+      <h2>📋 Habit Tracker</h2>
+
+      <!-- Form Tambah Habit -->
+      <form id="habit-form" class="habit-form">
+        <input
+          type="text"
+          id="habit-input"
+          placeholder="Tambah kebiasaan baru..."
+          maxlength="50"
+          required
+        >
+        <button type="submit" class="btn btn-add">+ Tambah</button>
+      </form>
+
+      <!-- Progress Summary -->
+      <div id="habit-progress" class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+        <span class="progress-text" id="progress-text">0 dari 0 selesai</span>
+      </div>
+
+      <!-- Daftar Habit -->
+      <ul id="habit-list" class="habit-list">
+        <!-- Diisi oleh JavaScript -->
+      </ul>
+
+      <p id="empty-message" class="empty-msg">Belum ada kebiasaan. Tambahkan satu! 👆</p>
+    </section>
+
+    <!-- ===== POMODORO PANEL (placeholder) ===== -->
+    <section class="panel pomodoro-panel">
+      <h2>⏱️ Pomodoro Timer</h2>
+      <p class="coming-soon">Segera hadir di Issue #3</p>
+    </section>
+
+    <!-- ===== TELEGRAM PANEL (placeholder) ===== -->
+    <section class="panel telegram-panel">
+      <h2>💬 Quick Notes</h2>
+      <p class="coming-soon">Segera hadir di Issue #4</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Dibuat dengan ❤️ dan Vibe Coding · 2026</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
