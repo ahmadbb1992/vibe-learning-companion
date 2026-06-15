@@ -239,3 +239,13 @@ Karena sesi Week 2 menyentuh API eksternal, token, dan manual testing, disaranka
 - Previous cumulative build time: ~4 jam 35 menit
 - Telegram command sync: ~1 jam 15 menit
 - **New cumulative build time:** ~5 jam 50 menit dalam 1 hari belajar aktif
+
+## 🏁 Week 2 Final Session: Bug Fix & Sync Verification
+- **Status:** Issue #8 Resolved
+- **Work:**
+    - Fix ReferenceError di `findHabitByName` (bug sync manual).
+    - Menambahkan unit test spesifik untuk `findHabitByName`.
+    - Verifikasi fitur sinkronisasi manual berjalan lancar.
+- **Hasil:** Sync manual sukses, Telegram bot sinkron dengan Habit Tracker, toast feedback aktif.
+- **Duration:** ~45 menit
+- **Total Build Time:** ~6 jam 35 menit dalam 1 hari belajar aktif.
