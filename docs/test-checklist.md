@@ -128,3 +128,55 @@
 - **Network:** Offline (no API calls in MVP)
 
 **Tested By:** Vibe Learner
+
+## Pomodoro Timer Tests
+
+### Test Case 7: Start, Pause & Reset Timer
+**Skenario:** Pengguna mengontrol durasi waktu fokus
+- [ ] Buka aplikasi, timer default 25:00
+- [ ] Klik tombol "Start"
+- [ ] Timer mulai menghitung mundur per detik (mis. 24:59, 24:58...)
+- [ ] Klik tombol "Pause"
+- [ ] Hitung mundur berhenti
+- [ ] Klik tombol "Start" lagi, timer melanjutkan sisa waktu
+- [ ] Klik tombol "Reset"
+- [ ] Timer berhenti dan kembali ke 25:00
+
+**Expected:** Kontrol tombol berjalan lancar dan update text display presisi.
+
+---
+
+### Test Case 8: Transisi Otomatis Fase Break
+**Skenario:** Sesi fokus selesai dan otomatis berganti ke break
+- [ ] Edit `pomodoroSecondsLeft = 2` (dalam code test) atau tunggu sampai habis
+- [ ] Ketika timer mencapai 00:00, alert/notifikasi muncul
+- [ ] Klik OK pada alert
+- [ ] Timer otomatis berganti ke 05:00 (Fase Break)
+- [ ] Teks timer berubah warna (hijau/break mode)
+- [ ] Ketika break habis, beralih kembali ke 25:00
+
+**Expected:** Transisi fokus ↔ break mulus dengan notifikasi alert.
+
+---
+
+### Test Case 9: Tab Title Update
+**Skenario:** Judul tab browser terupdate mengikuti timer
+- [ ] Start timer
+- [ ] Perhatikan nama tab browser (harusnya format `MM:SS — Vibe Learning Companion`)
+- [ ] Ketika dipause, status tetap terupdate
+- [ ] Ketika direset, judul tab kembali menjadi "Vibe Learning Companion"
+
+**Expected:** Judul tab mengikuti waktu yang tersisa agar user tahu sisa waktu saat berpindah tab.
+
+### Test Case 10: Toast Notification UX
+**Skenario:** User mendapat feedback visual setelah melakukan aksi penting
+- [ ] Tambah habit baru, toast "Habit ditambahkan" muncul
+- [ ] Centang habit, toast sukses muncul
+- [ ] Hapus habit, toast warning muncul
+- [ ] Klik Start Pomodoro, toast sesi fokus muncul
+- [ ] Klik Pause, toast timer dijeda muncul
+- [ ] Klik Reset, toast reset muncul
+- [ ] Toast hilang otomatis setelah beberapa detik
+- [ ] Toast tidak menutupi input utama di mobile
+
+**Expected:** User selalu mendapat feedback singkat tanpa mengganggu flow kerja.

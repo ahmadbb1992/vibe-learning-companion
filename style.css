@@ -238,6 +238,82 @@ header h1 {
 }
 
 /* ===== FOOTER ===== */
+
+/* ===== POMODORO TIMER ===== */
+.pomodoro-display {
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 1.5rem 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+
+.pomodoro-display.break {
+  color: var(--success);
+}
+
+.pomodoro-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.pomodoro-controls .btn {
+  flex: 1;
+  max-width: 100px;
+  text-align: center;
+}
+
+/* ===== TOAST NOTIFICATION ===== */
+.toast-container {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: min(360px, calc(100vw - 2rem));
+}
+
+.toast {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 10px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+  color: var(--text);
+  font-size: 0.85rem;
+  padding: 0.8rem 1rem;
+  transform: translateX(120%);
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast.success {
+  border-left-color: var(--success);
+}
+
+.toast.warning {
+  border-left-color: #f59e0b;
+}
+
+@media (max-width: 600px) {
+  .toast-container {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+  }
+}
+
+/* ===== FOOTER ===== */
 footer {
   text-align: center;
   padding: 1.5rem;

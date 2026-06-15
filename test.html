@@ -34,6 +34,9 @@
   <div class="test-suite">
     <h2>Habit Tracker Tests</h2>
     <div id="test-results">Running tests...</div>
+    
+    <h2 style="margin-top:2rem">Pomodoro Tests</h2>
+    <div id="pomodoro-test-results">Running tests...</div>
   </div>
 
   <div id="test-summary" class="summary"></div>
@@ -44,6 +47,13 @@
     <ul id="habit-list"></ul>
     <div id="habit-progress"><div id="progress-fill"></div><span id="progress-text"></span></div>
     <p id="empty-message"></p>
+    
+    <!-- Mock elements for Pomodoro -->
+    <div id="pomodoro-display"></div>
+    <button id="pomodoro-start"></button>
+    <button id="pomodoro-pause"></button>
+    <button id="pomodoro-reset"></button>
+    <div id="toast-container"></div>
   </div>
 
   <script>
@@ -102,6 +112,7 @@
     let totalTests = 0;
     let passedTests = 0;
     const testCasesOutput = [];
+    const pomodoroTestCasesOutput = [];
 
     function assert(condition, message) {
       totalTests++;
@@ -112,12 +123,25 @@
         testCasesOutput.push(`<div class="test-case"><span>✗ ${message}</span><span class="fail">FAILED</span></div>`);
       }
     }
+    
+    function assertPomodoro(condition, message) {
+      totalTests++;
+      if (condition) {
+        passedTests++;
+        pomodoroTestCasesOutput.push(`<div class="test-case"><span>✓ ${message}</span><span class="pass">PASSED</span></div>`);
+      } else {
+        pomodoroTestCasesOutput.push(`<div class="test-case"><span>✗ ${message}</span><span class="fail">FAILED</span></div>`);
+      }
+    }
 
     // Reset state before each test
     function beforeEach() {
       habits = [];
       habitIdCounter = Date.now();
       safeLocalStorage.clear();
+      
+      // Reset Pomodoro
+      resetPomodoro();
     }
 
     // ===== TEST SUITE =====
@@ -154,9 +178,44 @@
         const loaded = JSON.parse(safeLocalStorage.getItem('vibe_habits'));
         assert(loaded !== null, "Data harus tersimpan");
         assert(loaded[0].name === "Test Simpan", "Data di storage harus sesuai");
+        
+        // ==== POMODORO TESTS ====
+        
+        // Test P1: Initial State
+        beforeEach();
+        assertPomodoro(pomodoroSecondsLeft === 25 * 60, "Timer dimulai pada 25 menit (1500 detik)");
+        assertPomodoro(pomodoroIsRunning === false, "Timer tidak berjalan di awal");
+        assertPomodoro(pomodoroIsBreak === false, "Fase awal adalah fokus, bukan break");
+        assertPomodoro(formatTime(25 * 60) === "25:00", "Format waktu sesuai MM:SS");
+        
+        // Test P2: Start and Pause
+        beforeEach();
+        startPomodoro();
+        assertPomodoro(pomodoroIsRunning === true, "Timer berstatus isRunning saat dimulai");
+        assertPomodoro(pomodoroInterval !== null, "Interval diset saat dimulai");
+        
+        pausePomodoro();
+        assertPomodoro(pomodoroIsRunning === false, "Timer berstatus berhenti (false) saat dipause");
+        
+        // Test P3: Reset Timer
+        beforeEach();
+        pomodoroSecondsLeft = 100;
+        pomodoroIsBreak = true;
+        resetPomodoro();
+        assertPomodoro(pomodoroSecondsLeft === 25 * 60, "Waktu kembali ke 25 menit setelah direset");
+        assertPomodoro(pomodoroIsBreak === false, "Fase kembali ke fokus setelah direset");
+        assertPomodoro(pomodoroIsRunning === false, "Timer harus berhenti setelah direset");
+
+        // Test P4: Toast Notification
+        const toastContainer = document.getElementById('toast-container');
+        toastContainer.innerHTML = '';
+        showToast('Test toast muncul');
+        assertPomodoro(toastContainer.children.length === 1, "Toast muncul saat showToast dipanggil");
+        assertPomodoro(toastContainer.children[0].textContent === 'Test toast muncul', "Isi toast sesuai pesan");
 
         // Render Results
         resultsContainer.innerHTML = testCasesOutput.join('');
+        document.getElementById('pomodoro-test-results').innerHTML = pomodoroTestCasesOutput.join('');
         
         if (passedTests === totalTests) {
           summaryContainer.className = "summary all-pass";

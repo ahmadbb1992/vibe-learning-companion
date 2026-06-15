@@ -48,7 +48,12 @@
     <!-- ===== POMODORO PANEL (placeholder) ===== -->
     <section class="panel pomodoro-panel">
       <h2>⏱️ Pomodoro Timer</h2>
-      <p class="coming-soon">Segera hadir di Issue #3</p>
+      <div class="pomodoro-display" id="pomodoro-display">25:00</div>
+      <div class="pomodoro-controls">
+        <button id="pomodoro-start" class="btn btn-add">Start</button>
+        <button id="pomodoro-pause" class="btn">Pause</button>
+        <button id="pomodoro-reset" class="btn btn-delete">Reset</button>
+      </div>
     </section>
 
     <!-- ===== TELEGRAM PANEL (placeholder) ===== -->
@@ -62,6 +67,8 @@
   <footer>
     <p>Dibuat dengan ❤️ dan Vibe Coding · 2026</p>
   </footer>
+
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
   <script src="script.js"></script>
 </body>
