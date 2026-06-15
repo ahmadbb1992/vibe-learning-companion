@@ -250,3 +250,65 @@
 - [x] Daily report includes habit and Pomodoro data
 
 **Latest Result:** 32/32 tests passed ✅
+
+## Telegram Command Sync Tests
+
+### Test Case 15: Sync /add Command
+**Skenario:** User menambahkan habit dari Telegram lalu sync manual di app
+- [ ] Kirim pesan `/add Baca docs` ke bot Telegram
+- [ ] Buka app dan pastikan Telegram config sudah tersimpan
+- [ ] Klik `Sync Telegram Commands`
+- [ ] Toast sync selesai muncul
+- [ ] Habit `Baca docs` muncul di Habit Tracker
+- [ ] Klik Sync lagi tanpa command baru
+- [ ] Habit tidak terduplikasi
+
+**Expected:** Command `/add` diproses sekali dan tersimpan di localStorage.
+
+---
+
+### Test Case 16: Sync /done Command
+**Skenario:** User menandai habit selesai dari Telegram
+- [ ] Pastikan habit `Baca docs` sudah ada
+- [ ] Kirim pesan `/done Baca docs` ke bot Telegram
+- [ ] Klik `Sync Telegram Commands`
+- [ ] Habit `Baca docs` berubah menjadi selesai
+- [ ] Progress bar Habit Tracker ikut terupdate
+- [ ] Telegram menerima konfirmasi habit selesai
+
+**Expected:** Habit cocok berdasarkan nama dan status menjadi selesai.
+
+---
+
+### Test Case 17: Sync /list Command
+**Skenario:** User meminta daftar habit dari Telegram
+- [ ] Tambahkan beberapa habit di app
+- [ ] Kirim pesan `/list` ke bot Telegram
+- [ ] Klik `Sync Telegram Commands`
+- [ ] Telegram menerima daftar habit beserta status ✅ atau ⬜
+
+**Expected:** Daftar habit terkirim ke Telegram dengan format yang mudah dibaca.
+
+---
+
+### Test Case 18: Sync Edge Cases
+**Skenario:** User mengirim command tidak lengkap atau pesan biasa
+- [ ] Kirim `/add` tanpa nama habit
+- [ ] Klik Sync, app tidak crash
+- [ ] Kirim `/done Habit Tidak Ada`
+- [ ] Klik Sync, Telegram menerima pesan habit tidak ditemukan
+- [ ] Kirim pesan biasa seperti `halo`
+- [ ] Klik Sync, pesan biasa diabaikan
+
+**Expected:** App tetap stabil, tidak ada command duplikat, dan feedback tetap jelas.
+
+---
+
+### Automated Telegram Sync Tests (test.html)
+- [x] `/add` command parsed correctly
+- [x] `/done` command parsed correctly
+- [x] `/list` command parsed correctly
+- [x] Normal message ignored
+- [x] Duplicate habit rejected
+- [x] Habit list message includes status
+- [x] Process command returns async operation

@@ -97,3 +97,28 @@ Setelah fitur Habit Tracker dan Pomodoro Timer berjalan, user masih bisa bingung
 
 ### Catatan Security
 Bot token disimpan di browser localStorage. Ini cukup untuk learning project, tapi tidak direkomendasikan untuk aplikasi production/public tanpa backend/proxy yang aman.
+
+## Advanced Update: Telegram Command Sync ✅
+
+### Apa yang Ditambahkan
+- Tombol `Sync Telegram Commands` untuk polling command dari Telegram.
+- Command `/add Nama Habit` untuk menambahkan habit dari Telegram.
+- Command `/done Nama Habit` untuk menandai habit selesai dari Telegram.
+- Command `/list` untuk mengirim daftar habit kembali ke Telegram.
+- `last_update_id` disimpan di localStorage agar command tidak diproses dua kali.
+- Pencegahan nama habit duplikat.
+
+### Kenapa Sync Manual
+Aplikasi masih static web app di GitHub Pages, jadi belum punya backend untuk menerima webhook Telegram secara realtime. Sync manual adalah pilihan paling sederhana dan cocok untuk fase belajar karena tetap bisa memakai Telegram Bot API tanpa server tambahan.
+
+### Konsep yang Dipelajari
+- Polling API dengan `getUpdates`.
+- Parsing command berbasis teks.
+- Idempotency memakai `update_id`.
+- Integrasi arah Telegram → App tanpa backend.
+- Edge case: command kosong, habit tidak ditemukan, dan duplikasi data.
+
+### Batasan
+- Sync harus diklik manual.
+- Data tetap hanya tersimpan di browser/localStorage.
+- Tidak realtime dan belum multi-device.

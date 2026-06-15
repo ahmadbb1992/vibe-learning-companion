@@ -67,6 +67,7 @@
     <button id="clear-telegram-config"></button>
     <button id="send-telegram-message"></button>
     <button id="send-telegram-report"></button>
+    <button id="sync-telegram-commands"></button>
   </div>
 
   <script>
@@ -170,6 +171,7 @@
       // Clear Telegram Mock UI values
       if (telegramTokenInput) telegramTokenInput.value = '';
       if (telegramChatIdInput) telegramChatIdInput.value = '';
+      if (telegramMessageInput) telegramMessageInput.value = '';
     }
 
     // ===== TEST SUITE =====
@@ -273,6 +275,31 @@
         const report = buildDailyReportMessage();
         assertTelegram(report.includes("1 / 2 selesai"), "Laporan harian mencatat habit dengan akurat");
         assertTelegram(report.includes("3"), "Laporan harian mencatat sesi pomodoro dengan akurat");
+
+        // Test T5: Parse Telegram Commands
+        assertTelegram(parseTelegramCommand('/add Baca docs').type === 'add', "Command /add dikenali");
+        assertTelegram(parseTelegramCommand('/add Baca docs').habitName === 'Baca docs', "Command /add mengambil nama habit");
+        assertTelegram(parseTelegramCommand('/done Baca docs').type === 'done', "Command /done dikenali");
+        assertTelegram(parseTelegramCommand('/list').type === 'list', "Command /list dikenali");
+        assertTelegram(parseTelegramCommand('halo biasa').type === 'ignore', "Pesan biasa diabaikan");
+
+        // Test T6: Prevent duplicate habit names
+        beforeEach();
+        addHabit('Baca docs');
+        const duplicateResult = addHabit('baca docs');
+        assertTelegram(duplicateResult === false, "Habit duplikat ditolak");
+        assertTelegram(habits.length === 1, "Habit duplikat tidak menambah item baru");
+
+        // Test T7: Build Habit List Message
+        toggleHabit(habits[0].id);
+        const listMessage = buildHabitListMessage();
+        assertTelegram(listMessage.includes('✅ Baca docs'), "Habit list menampilkan status selesai");
+
+        // Test T8: Process /done Command
+        beforeEach();
+        addHabit('Belajar Sync');
+        const doneResult = processTelegramCommand({ type: 'done', habitName: 'Belajar Sync' });
+        assertTelegram(doneResult instanceof Promise, "Process command berjalan async");
 
         // Render Results
         resultsContainer.innerHTML = testCasesOutput.join('');

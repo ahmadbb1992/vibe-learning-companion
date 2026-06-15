@@ -222,3 +222,20 @@ Karena sesi Week 2 menyentuh API eksternal, token, dan manual testing, disaranka
 - Week 1 total: ~3 jam
 - Week 2 total: ~1 jam 35 menit
 - **Total cumulative build time:** ~4 jam 35 menit dalam 1 hari belajar aktif
+
+## Advanced Session: Telegram Command Sync
+
+| Milestone | Status | Estimasi Durasi |
+|-----------|--------|-----------------|
+| Create Issue #8 | ✅ Selesai | ~5 menit |
+| Add sync UI | ✅ Selesai | ~10 menit |
+| Implement command parser | ✅ Selesai | ~15 menit |
+| Implement getUpdates polling | ✅ Selesai | ~20 menit |
+| Add tests | ✅ Selesai | ~15 menit |
+| Update documentation | ✅ Selesai | ~10 menit |
+| **Total Advanced Session** | ✅ Selesai | **~1 jam 15 menit** |
+
+### Current App Completion Time
+- Previous cumulative build time: ~4 jam 35 menit
+- Telegram command sync: ~1 jam 15 menit
+- **New cumulative build time:** ~5 jam 50 menit dalam 1 hari belajar aktif

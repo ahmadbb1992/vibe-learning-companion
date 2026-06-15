@@ -26,6 +26,7 @@ const saveTelegramConfigButton = document.getElementById('save-telegram-config')
 const clearTelegramConfigButton = document.getElementById('clear-telegram-config');
 const sendTelegramMessageButton = document.getElementById('send-telegram-message');
 const sendTelegramReportButton = document.getElementById('send-telegram-report');
+const syncTelegramCommandsButton = document.getElementById('sync-telegram-commands');
 
 // ===== TOAST NOTIFICATION =====
 function showToast(message, type = 'success') {
@@ -75,6 +76,10 @@ function saveHabits() {
 
 // Add new habit
 function addHabit(name) {
+  if (habits.some(h => h.name.toLowerCase() === name.toLowerCase())) {
+    showToast(`Habit sudah ada: ${name}`, 'warning');
+    return false;
+  }
   const newHabit = {
     id: ++habitIdCounter,
     name: name,
@@ -84,6 +89,7 @@ function addHabit(name) {
   saveHabits();
   renderHabits();
   showToast(`Habit ditambahkan: ${name}`);
+  return true;
 }
 
 // Delete habit
@@ -336,6 +342,19 @@ function buildDailyReportMessage() {
     `\n*Note:* Tetap vibing dan minimalisir scope setiap iterasi.`;
 }
 
+function buildHabitListMessage() {
+  if (habits.length === 0) {
+    return '📋 Habit list masih kosong.';
+  }
+
+  const habitLines = habits.map((habit, index) => {
+    const status = habit.done ? '✅' : '⬜';
+    return `${index + 1}. ${status} ${habit.name}`;
+  });
+
+  return `📋 *Habit List*\n${habitLines.join('\n')}`;
+}
+
 async function sendToTelegram(messageText) {
   const { token, chatId } = getTelegramConfig();
   if (!token || !chatId) {
@@ -389,6 +408,107 @@ async function sendTelegramReport() {
   await sendToTelegram(reportText);
 }
 
+function parseTelegramCommand(text) {
+  const trimmedText = text.trim();
+
+  if (trimmedText === '/list') {
+    return { type: 'list' };
+  }
+
+  if (trimmedText.startsWith('/add ')) {
+    const habitName = trimmedText.replace('/add ', '').trim();
+    return habitName ? { type: 'add', habitName } : { type: 'invalid', reason: 'Nama habit kosong' };
+  }
+
+  if (trimmedText.startsWith('/done ')) {
+    const habitName = trimmedText.replace('/done ', '').trim();
+    return habitName ? { type: 'done', habitName } : { type: 'invalid', reason: 'Nama habit kosong' };
+  }
+
+  return { type: 'ignore' };
+}
+
+function findHabitByName(habitName) {
+  return habits.find(habit => h.name.toLowerCase() === habitName.toLowerCase());
+}
+
+async function processTelegramCommand(command) {
+  if (command.type === 'add') {
+    const added = addHabit(command.habitName);
+    if (added) {
+      await sendToTelegram(`✅ Habit ditambahkan: ${command.habitName}`);
+      return 'added';
+    }
+    return 'duplicate';
+  }
+
+  if (command.type === 'done') {
+    const habit = findHabitByName(command.habitName);
+    if (!habit) {
+      await sendToTelegram(`⚠️ Habit tidak ditemukan: ${command.habitName}`);
+      return 'not_found';
+    }
+    if (!habit.done) {
+      toggleHabit(habit.id);
+    }
+    await sendToTelegram(`✅ Habit selesai: ${habit.name}`);
+    return 'done';
+  }
+
+  if (command.type === 'list') {
+    await sendToTelegram(buildHabitListMessage());
+    return 'listed';
+  }
+
+  return command.type;
+}
+
+async function syncTelegramCommands() {
+  const { token } = getTelegramConfig();
+  if (!token) {
+    showToast('Lengkapi Telegram token terlebih dahulu.', 'warning');
+    return false;
+  }
+
+  const lastUpdateId = Number(localStorage.getItem('vibe_telegram_last_update_id') || 0);
+  const offsetQuery = lastUpdateId > 0 ? `?offset=${lastUpdateId + 1}` : '';
+  const url = `https://api.telegram.org/bot${token}/getUpdates${offsetQuery}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.ok) {
+      showToast(`Sync gagal: ${data.description}`, 'warning');
+      return false;
+    }
+
+    const updates = data.result || [];
+    let processedCount = 0;
+
+    for (const update of updates) {
+      const messageText = update.message?.text || update.channel_post?.text || '';
+      const command = parseTelegramCommand(messageText);
+
+      if (command.type !== 'ignore') {
+        await processTelegramCommand(command);
+        processedCount++;
+      }
+
+      if (update.update_id >= lastUpdateId) {
+        localStorage.setItem('vibe_telegram_last_update_id', String(update.update_id));
+      }
+    }
+
+    showToast(processedCount > 0 ? `Sync selesai: ${processedCount} command diproses.` : 'Tidak ada command baru.');
+    return true;
+  } catch (error) {
+    console.error('Telegram sync failed', error);
+    showToast('Sync gagal. Cek koneksi atau token.', 'warning');
+    return false;
+  }
+}
+
 function initTelegram() {
   loadTelegramConfig();
   saveTelegramConfigButton.addEventListener('click', (event) => {
@@ -406,5 +526,9 @@ function initTelegram() {
   sendTelegramReportButton.addEventListener('click', (event) => {
     event.preventDefault();
     sendTelegramReport();
+  });
+  syncTelegramCommandsButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    syncTelegramCommands();
   });
 }
