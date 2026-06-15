@@ -18,6 +18,14 @@ const habitList = document.getElementById('habit-list');
 const emptyMessage = document.getElementById('empty-message');
 const progressFill = document.getElementById('progress-fill');
 const progressText = document.getElementById('progress-text');
+const telegramTokenInput = document.getElementById('telegram-token');
+const telegramChatIdInput = document.getElementById('telegram-chat-id');
+const telegramMessageInput = document.getElementById('telegram-message');
+const telegramStatus = document.getElementById('telegram-status');
+const saveTelegramConfigButton = document.getElementById('save-telegram-config');
+const clearTelegramConfigButton = document.getElementById('clear-telegram-config');
+const sendTelegramMessageButton = document.getElementById('send-telegram-message');
+const sendTelegramReportButton = document.getElementById('send-telegram-report');
 
 // ===== TOAST NOTIFICATION =====
 function showToast(message, type = 'success') {
@@ -251,4 +259,152 @@ function initPomodoro() {
   document.getElementById('pomodoro-start').addEventListener('click', startPomodoro);
   document.getElementById('pomodoro-pause').addEventListener('click', pausePomodoro);
   document.getElementById('pomodoro-reset').addEventListener('click', resetPomodoro);
+  initTelegram();
+}
+
+// ===== TELEGRAM FUNCTIONS =====
+
+function loadTelegramConfig() {
+  const token = localStorage.getItem('vibe_telegram_token') || '';
+  const chatId = localStorage.getItem('vibe_telegram_chat_id') || '';
+  telegramTokenInput.value = token;
+  telegramChatIdInput.value = chatId;
+  updateTelegramStatus();
+}
+
+function saveTelegramConfig() {
+  const token = telegramTokenInput.value.trim();
+  const chatId = telegramChatIdInput.value.trim();
+
+  if (!validateTelegramToken(token)) {
+    showToast('Token tidak valid. Format: 123456789:ABCdef...', 'warning');
+    return false;
+  }
+  if (!validateChatId(chatId)) {
+    showToast('Chat ID harus angka.', 'warning');
+    return false;
+  }
+
+  localStorage.setItem('vibe_telegram_token', token);
+  localStorage.setItem('vibe_telegram_chat_id', chatId);
+  updateTelegramStatus();
+  showToast('Telegram config tersimpan.');
+  return true;
+}
+
+function clearTelegramConfig() {
+  localStorage.removeItem('vibe_telegram_token');
+  localStorage.removeItem('vibe_telegram_chat_id');
+  telegramTokenInput.value = '';
+  telegramChatIdInput.value = '';
+  updateTelegramStatus();
+  showToast('Telegram config dibersihkan.', 'warning');
+}
+
+function updateTelegramStatus() {
+  const token = telegramTokenInput.value.trim();
+  const chatId = telegramChatIdInput.value.trim();
+  if (token && chatId) {
+    telegramStatus.textContent = 'Telegram config sudah siap. Kirim catatan cepat sekarang.';
+  } else {
+    telegramStatus.textContent = 'Config belum lengkap. Masukkan token dan chat ID.';
+  }
+}
+
+function validateTelegramToken(value) {
+  return /^\d{8,}:([A-Za-z0-9_-]{35,})$/.test(value);
+}
+
+function validateChatId(value) {
+  return /^-?\d+$/.test(value);
+}
+
+function getTelegramConfig() {
+  return {
+    token: telegramTokenInput.value.trim(),
+    chatId: telegramChatIdInput.value.trim()
+  };
+}
+
+function buildDailyReportMessage() {
+  const doneCount = habits.filter(h => h.done).length;
+  const total = habits.length;
+  return `📊 *Daily Vibe Report*\n` +
+    `- Habits: ${doneCount} / ${total} selesai\n` +
+    `- Sesi Pomodoro: ${pomodoroSessionsCompleted}\n` +
+    `- Progress: ${doneCount === total ? 'Semua selesai! 🎉' : 'Masih ada yang harus dikerjakan'}\n` +
+    `\n*Note:* Tetap vibing dan minimalisir scope setiap iterasi.`;
+}
+
+async function sendToTelegram(messageText) {
+  const { token, chatId } = getTelegramConfig();
+  if (!token || !chatId) {
+    showToast('Lengkapi Telegram config terlebih dahulu.', 'warning');
+    return;
+  }
+  if (!messageText.trim()) {
+    showToast('Pesan tidak boleh kosong.', 'warning');
+    return;
+  }
+
+  const url = `https://api.telegram.org/bot${token}/sendMessage`;
+  const payload = {
+    chat_id: chatId,
+    text: messageText,
+    parse_mode: 'Markdown'
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json();
+    if (!data.ok) {
+      showToast(`Telegram error: ${data.description}`, 'warning');
+      return false;
+    }
+    showToast('Pesan terkirim ke Telegram!');
+    return true;
+  } catch (error) {
+    console.error('Telegram send failed', error);
+    showToast('Gagal mengirim ke Telegram. Cek koneksi / token.', 'warning');
+    return false;
+  }
+}
+
+async function sendTelegramMessage() {
+  const messageText = telegramMessageInput.value.trim();
+  const success = await sendToTelegram(messageText);
+  if (success) {
+    telegramMessageInput.value = '';
+  }
+}
+
+async function sendTelegramReport() {
+  const reportText = buildDailyReportMessage();
+  await sendToTelegram(reportText);
+}
+
+function initTelegram() {
+  loadTelegramConfig();
+  saveTelegramConfigButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    saveTelegramConfig();
+  });
+  clearTelegramConfigButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    clearTelegramConfig();
+  });
+  sendTelegramMessageButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    sendTelegramMessage();
+  });
+  sendTelegramReportButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    sendTelegramReport();
+  });
 }

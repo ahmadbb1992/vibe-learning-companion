@@ -266,6 +266,46 @@ header h1 {
   text-align: center;
 }
 
+/* ===== TELEGRAM PANEL ===== */
+.telegram-card {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.input-field {
+  width: 100%;
+  min-height: 42px;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.textarea-field {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.telegram-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.telegram-status {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
 /* ===== TOAST NOTIFICATION ===== */
 .toast-container {
   position: fixed;

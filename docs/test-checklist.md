@@ -180,3 +180,73 @@
 - [ ] Toast tidak menutupi input utama di mobile
 
 **Expected:** User selalu mendapat feedback singkat tanpa mengganggu flow kerja.
+
+## Telegram Quick Capture Tests
+
+### Test Case 11: Save Telegram Config
+**Skenario:** User menyimpan token bot dan chat ID
+- [ ] Isi Telegram Bot Token dari BotFather
+- [ ] Isi Chat ID personal atau group chat ID
+- [ ] Klik `Save Config`
+- [ ] Toast sukses muncul
+- [ ] Refresh browser
+- [ ] Token dan Chat ID tetap terisi
+
+**Expected:** Config tersimpan di localStorage dan status Telegram siap.
+
+---
+
+### Test Case 12: Send Quick Note to Telegram
+**Skenario:** User mengirim catatan cepat ke Telegram
+- [ ] Pastikan config sudah tersimpan
+- [ ] Isi textarea `Catatan Cepat`
+- [ ] Klik `Send to Telegram`
+- [ ] Toast sukses muncul
+- [ ] Pesan masuk ke chat Telegram personal/grup
+- [ ] Textarea kosong setelah berhasil terkirim
+
+**Expected:** Pesan terkirim ke Telegram dan app memberi feedback jelas.
+
+---
+
+### Test Case 13: Send Daily Report
+**Skenario:** User mengirim laporan progress harian
+- [ ] Tambahkan minimal 2 habit
+- [ ] Centang minimal 1 habit
+- [ ] Jalankan minimal 1 sesi Pomodoro atau gunakan data sesi saat ini
+- [ ] Klik `Send Daily Report`
+- [ ] Cek pesan masuk di Telegram
+- [ ] Pastikan isi laporan memuat habit progress dan jumlah sesi Pomodoro
+
+**Expected:** Daily report otomatis terformat dan terkirim.
+
+---
+
+### Test Case 14: Telegram Error Handling
+**Skenario:** User memasukkan config tidak valid
+- [ ] Isi token dengan format salah
+- [ ] Klik `Save Config`
+- [ ] Toast warning muncul
+- [ ] Isi Chat ID dengan huruf
+- [ ] Klik `Save Config`
+- [ ] Toast warning muncul
+- [ ] Klik send saat pesan kosong
+- [ ] Toast warning muncul
+
+**Expected:** App menolak input salah dan menjelaskan masalahnya lewat toast.
+
+---
+
+### Automated Telegram Tests (test.html)
+- [x] Token valid format accepted
+- [x] Token invalid format rejected
+- [x] Short token rejected
+- [x] Personal chat ID accepted
+- [x] Group/supergroup negative chat ID accepted
+- [x] Non-numeric chat ID rejected
+- [x] Valid config saved to storage
+- [x] Token persisted to storage
+- [x] Chat ID persisted to storage
+- [x] Daily report includes habit and Pomodoro data
+
+**Latest Result:** 32/32 tests passed ✅

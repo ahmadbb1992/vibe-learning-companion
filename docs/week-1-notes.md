@@ -71,3 +71,29 @@ Setelah fitur Habit Tracker dan Pomodoro Timer berjalan, user masih bisa bingung
 ### Test Tambahan
 - Toast helper diuji di `test.html`
 - Manual test mencakup semua aksi utama yang memunculkan toast
+
+## Week 2 Update: Telegram Quick Capture ✅
+
+### Apa yang Ditambahkan
+- Form konfigurasi Telegram Bot Token dan Chat ID.
+- Penyimpanan config di localStorage.
+- Quick note textarea untuk mengirim catatan cepat ke Telegram.
+- Daily report otomatis berisi progress habit dan jumlah sesi Pomodoro.
+- Support personal chat ID dan group/supergroup chat ID negatif.
+- Toast feedback untuk config, sukses kirim, dan error.
+
+### Konsep yang Dipelajari
+- `fetch()` untuk HTTP POST request.
+- Async/await untuk proses API.
+- Validasi input sebelum request API.
+- Error handling untuk API eksternal.
+- Penyimpanan konfigurasi user di localStorage.
+- Integrasi Telegram Bot API dari browser.
+
+### Hasil Test
+- Browser test runner: 32/32 passed.
+- Manual test: kirim pesan personal dan grup Telegram berhasil.
+- Negative group chat ID sudah didukung.
+
+### Catatan Security
+Bot token disimpan di browser localStorage. Ini cukup untuk learning project, tapi tidak direkomendasikan untuk aplikasi production/public tanpa backend/proxy yang aman.

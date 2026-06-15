@@ -59,7 +59,29 @@
     <!-- ===== TELEGRAM PANEL (placeholder) ===== -->
     <section class="panel telegram-panel">
       <h2>💬 Quick Notes</h2>
-      <p class="coming-soon">Segera hadir di Issue #4</p>
+      <div class="telegram-card">
+        <div class="field-group">
+          <label for="telegram-token">Telegram Bot Token</label>
+          <input id="telegram-token" class="input-field" type="text" placeholder="123456789:ABCdefGhIJKlmnOPqrsTUVwxyz" autocomplete="off">
+        </div>
+        <div class="field-group">
+          <label for="telegram-chat-id">Chat ID</label>
+          <input id="telegram-chat-id" class="input-field" type="text" placeholder="987654321" autocomplete="off">
+        </div>
+        <div class="telegram-actions">
+          <button id="save-telegram-config" class="btn btn-add">Save Config</button>
+          <button id="clear-telegram-config" class="btn btn-delete">Clear</button>
+        </div>
+        <div class="field-group">
+          <label for="telegram-message">Catatan Cepat</label>
+          <textarea id="telegram-message" class="input-field textarea-field" placeholder="Tulis ide atau progress singkat..."></textarea>
+        </div>
+        <div class="telegram-actions">
+          <button id="send-telegram-message" class="btn btn-add">Send to Telegram</button>
+          <button id="send-telegram-report" class="btn">Send Daily Report</button>
+        </div>
+        <div id="telegram-status" class="telegram-status">Config belum disimpan.</div>
+      </div>
     </section>
 
   </main>

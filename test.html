@@ -37,6 +37,9 @@
     
     <h2 style="margin-top:2rem">Pomodoro Tests</h2>
     <div id="pomodoro-test-results">Running tests...</div>
+    
+    <h2 style="margin-top:2rem">Telegram Bot Tests</h2>
+    <div id="telegram-test-results">Running tests...</div>
   </div>
 
   <div id="test-summary" class="summary"></div>
@@ -54,6 +57,16 @@
     <button id="pomodoro-pause"></button>
     <button id="pomodoro-reset"></button>
     <div id="toast-container"></div>
+    
+    <!-- Mock elements for Telegram -->
+    <input id="telegram-token">
+    <input id="telegram-chat-id">
+    <textarea id="telegram-message"></textarea>
+    <div id="telegram-status"></div>
+    <button id="save-telegram-config"></button>
+    <button id="clear-telegram-config"></button>
+    <button id="send-telegram-message"></button>
+    <button id="send-telegram-report"></button>
   </div>
 
   <script>
@@ -113,6 +126,7 @@
     let passedTests = 0;
     const testCasesOutput = [];
     const pomodoroTestCasesOutput = [];
+    const telegramTestCasesOutput = [];
 
     function assert(condition, message) {
       totalTests++;
@@ -133,6 +147,16 @@
         pomodoroTestCasesOutput.push(`<div class="test-case"><span>✗ ${message}</span><span class="fail">FAILED</span></div>`);
       }
     }
+    
+    function assertTelegram(condition, message) {
+      totalTests++;
+      if (condition) {
+        passedTests++;
+        telegramTestCasesOutput.push(`<div class="test-case"><span>✓ ${message}</span><span class="pass">PASSED</span></div>`);
+      } else {
+        telegramTestCasesOutput.push(`<div class="test-case"><span>✗ ${message}</span><span class="fail">FAILED</span></div>`);
+      }
+    }
 
     // Reset state before each test
     function beforeEach() {
@@ -142,6 +166,10 @@
       
       // Reset Pomodoro
       resetPomodoro();
+      
+      // Clear Telegram Mock UI values
+      if (telegramTokenInput) telegramTokenInput.value = '';
+      if (telegramChatIdInput) telegramChatIdInput.value = '';
     }
 
     // ===== TEST SUITE =====
@@ -212,10 +240,44 @@
         showToast('Test toast muncul');
         assertPomodoro(toastContainer.children.length === 1, "Toast muncul saat showToast dipanggil");
         assertPomodoro(toastContainer.children[0].textContent === 'Test toast muncul', "Isi toast sesuai pesan");
+        
+        // ==== TELEGRAM TESTS ====
+        
+        // Test T1: Validate Token Format
+        assertTelegram(validateTelegramToken("123456789:ABCdefGhIJKlmnOPqrsTUVwxyz123456789") === true, "Token valid format harus true");
+        assertTelegram(validateTelegramToken("invalid_token_format") === false, "Token format salah harus false");
+        assertTelegram(validateTelegramToken("12345:Short") === false, "Token terlalu pendek harus false");
+        
+        // Test T2: Validate Chat ID Format
+        assertTelegram(validateChatId("123456789") === true, "Chat ID positif (Personal) valid");
+        assertTelegram(validateChatId("-1001987654321") === true, "Chat ID negatif (Group/Supergroup) valid");
+        assertTelegram(validateChatId("abc1234") === false, "Chat ID mengandung huruf tidak valid");
+        
+        // Test T3: Save Config
+        beforeEach();
+        telegramTokenInput.value = "123456789:ABCdefGhIJKlmnOPqrsTUVwxyz123456789";
+        telegramChatIdInput.value = "-100123456";
+        const isSaved = saveTelegramConfig();
+        
+        assertTelegram(isSaved === true, "Simpan config valid menghasilkan true");
+        assertTelegram(safeLocalStorage.getItem('vibe_telegram_token') === "123456789:ABCdefGhIJKlmnOPqrsTUVwxyz123456789", "Token tersimpan di storage");
+        assertTelegram(safeLocalStorage.getItem('vibe_telegram_chat_id') === "-100123456", "Chat ID tersimpan di storage");
+        
+        // Test T4: Build Daily Report Message
+        beforeEach();
+        addHabit("Habit 1");
+        addHabit("Habit 2");
+        toggleHabit(habits[0].id); // Selesaikan 1 habit
+        pomodoroSessionsCompleted = 3; // Mock pomodoro selesai 3 sesi
+        
+        const report = buildDailyReportMessage();
+        assertTelegram(report.includes("1 / 2 selesai"), "Laporan harian mencatat habit dengan akurat");
+        assertTelegram(report.includes("3"), "Laporan harian mencatat sesi pomodoro dengan akurat");
 
         // Render Results
         resultsContainer.innerHTML = testCasesOutput.join('');
         document.getElementById('pomodoro-test-results').innerHTML = pomodoroTestCasesOutput.join('');
+        document.getElementById('telegram-test-results').innerHTML = telegramTestCasesOutput.join('');
         
         if (passedTests === totalTests) {
           summaryContainer.className = "summary all-pass";

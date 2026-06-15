@@ -202,3 +202,23 @@ Dengan pace Week 1 (~3 jam/fitur), estimasi:
 
 **Last Updated:** 2026-06-15 Post-Session
 **Session Logger:** Vibe Learner (baihaqi)
+
+## Week 2 Session: Telegram Quick Capture
+
+| Milestone | Status | Estimasi Durasi |
+|-----------|--------|-----------------|
+| Telegram feature planning | ✅ Selesai | ~10 menit |
+| Telegram UI + logic implementation | ✅ Selesai | ~30 menit |
+| Manual setup BotFather + Chat ID | ✅ Selesai | ~15 menit |
+| Personal/group Telegram manual test | ✅ Selesai | ~15 menit |
+| Automated Telegram tests | ✅ Selesai | ~15 menit |
+| Documentation update | ✅ Selesai | ~10 menit |
+| **Total Week 2 Session** | ✅ Selesai | **~1 jam 35 menit** |
+
+### Break Recommendation After Week 2
+Karena sesi Week 2 menyentuh API eksternal, token, dan manual testing, disarankan ambil break 10-15 menit sebelum lanjut deploy atau fitur baru.
+
+### Current App Completion Time
+- Week 1 total: ~3 jam
+- Week 2 total: ~1 jam 35 menit
+- **Total cumulative build time:** ~4 jam 35 menit dalam 1 hari belajar aktif
