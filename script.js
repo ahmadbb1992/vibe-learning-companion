@@ -429,7 +429,7 @@ function parseTelegramCommand(text) {
 }
 
 function findHabitByName(habitName) {
-  return habits.find(habit => h.name.toLowerCase() === habitName.toLowerCase());
+  return habits.find(habit => habit.name.toLowerCase() === habitName.toLowerCase());
 }
 
 async function processTelegramCommand(command) {

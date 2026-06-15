@@ -298,8 +298,11 @@
         // Test T8: Process /done Command
         beforeEach();
         addHabit('Belajar Sync');
-        const doneResult = processTelegramCommand({ type: 'done', habitName: 'Belajar Sync' });
-        assertTelegram(doneResult instanceof Promise, "Process command berjalan async");
+        
+        // Verifikasi findHabitByName bekerja dengan benar
+        const foundHabit = findHabitByName('Belajar Sync');
+        assertTelegram(foundHabit !== undefined, "Habit harus dapat ditemukan berdasarkan nama");
+        assertTelegram(foundHabit.name === 'Belajar Sync', "Nama habit yang ditemukan harus sesuai");
 
         // Render Results
         resultsContainer.innerHTML = testCasesOutput.join('');
