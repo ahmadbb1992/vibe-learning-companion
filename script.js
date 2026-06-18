@@ -581,11 +581,17 @@ if (exportBtn && importBtn && importFileInput) {
       try {
         const importedData = JSON.parse(e.target.result);
         
-        // Verifikasi struktur dasar jika diperlukan (opsional, tapi bagus untuk mencegah salah file)
-        // Di sini kita timpa localStorage dengan data baru
-        localStorage.clear();
+        // Verifikasi struktur dasar (pastikan ini file backup dari aplikasi kita)
+        const appKeys = ['vibe_habits', 'vibe_telegram_token', 'vibe_telegram_chat_id', 'vibe_telegram_last_update_id'];
+        
+        // Hapus hanya data yang berhubungan dengan aplikasi kita, biarkan key lain utuh
+        appKeys.forEach(key => localStorage.removeItem(key));
+        
+        // Masukkan data baru hasil import
         for (const [key, value] of Object.entries(importedData)) {
-          localStorage.setItem(key, value);
+          if (appKeys.includes(key)) {
+            localStorage.setItem(key, value);
+          }
         }
         
         showToast('Data berhasil diimport! Memuat ulang...', 'success');
