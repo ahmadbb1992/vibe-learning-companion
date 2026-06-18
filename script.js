@@ -532,3 +532,78 @@ function initTelegram() {
     syncTelegramCommands();
   });
 }
+
+// ==========================================
+// DATA MANAGEMENT (EXPORT / IMPORT) LOGIC
+// ==========================================
+
+const exportBtn = document.getElementById('export-data-btn');
+const importBtn = document.getElementById('import-data-btn');
+const importFileInput = document.getElementById('import-file-input');
+
+if (exportBtn && importBtn && importFileInput) {
+  // --- EXPORT DATA ---
+  exportBtn.addEventListener('click', () => {
+    try {
+      const allData = { ...localStorage };
+      const dataStr = JSON.stringify(allData, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'vibe-companion-backup.json';
+      document.body.appendChild(a);
+      a.click();
+      
+      // Cleanup
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      showToast('Data berhasil diexport!', 'success');
+    } catch (error) {
+      console.error('Export error:', error);
+      showToast('Gagal mengexport data', 'error');
+    }
+  });
+
+  // --- IMPORT DATA ---
+  importBtn.addEventListener('click', () => {
+    importFileInput.click(); // Buka file explorer
+  });
+
+  importFileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const importedData = JSON.parse(e.target.result);
+        
+        // Verifikasi struktur dasar jika diperlukan (opsional, tapi bagus untuk mencegah salah file)
+        // Di sini kita timpa localStorage dengan data baru
+        localStorage.clear();
+        for (const [key, value] of Object.entries(importedData)) {
+          localStorage.setItem(key, value);
+        }
+        
+        showToast('Data berhasil diimport! Memuat ulang...', 'success');
+        
+        // Refresh browser setelah 1.5 detik agar data baru diterapkan ke state aplikasi
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+
+      } catch (error) {
+        console.error('Import error:', error);
+        showToast('File tidak valid atau rusak!', 'error');
+      } finally {
+        // Reset file input agar bisa upload file yang sama jika gagal sebelumnya
+        importFileInput.value = '';
+      }
+    };
+    
+    reader.readAsText(file);
+  });
+}
